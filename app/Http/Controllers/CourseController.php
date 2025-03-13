@@ -33,16 +33,16 @@ class CourseController extends Controller
         $request->validate([
             'course_name'=> 'required|string|max:255',
             'course_code'=> 'required|string|max:255',
-            'unit'=> 'required|integer|min:1',
+            'units'=> 'required|integer|min:1',
             'semester'=> 'required|integer',
         ]);
         //dd('Validation passed.');
        // dd($request->all());
-        Course::create([
-            'course_code' => request()->get('course_code'),
-            'course_name' => request()->get('course_name'),
-            'units' => request()->get('units'),
-            'semester' => request()->get('semester'),
+        Course::query()->create([
+            'course_code' => request()->input('course_code'),
+            'course_name' => request()->input('course_name'),
+            'unit' => request()->input('units'),
+            'semester' => request()->input('semester'),
         ]);
        
         return redirect()->route('courses.index')->with('success','course added');
@@ -74,11 +74,15 @@ class CourseController extends Controller
         $request->validate([
             'course_name'=> 'required|string|max:255',
             'course_code'=> 'required|string|max:255',
-            'unit'=> 'required|integer|min:1',
+            'units'=> 'required|integer|min:1',
             'semester'=> 'required|integer',
         ]);
 
         $course->update($request->all());
+
+        return redirect()->route('courses.index');
+
+
     }
 
     /**
